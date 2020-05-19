@@ -11,7 +11,7 @@ Boto3 Version: 1.7.50
 import boto3, sys
 from botocore.exceptions import ClientError
 
-guarddutyadminaccount = '123456789012' #change this to your real account
+## guarddutyadminaccount = '786053582951' #change this to your real account
 
 def get_regions(ec2):
   """
@@ -38,8 +38,9 @@ def main():
 
   Order of operation:
 
-  1.) get the available regions
-  2.) Enable GuardDuty admin
+  1.) Get the available aws regions
+  2.) find the guardduty detector id for each region
+  3.) Update Organization config with detector id for each region
   """
 
   # AWS Credentials
@@ -55,14 +56,17 @@ def main():
     gd = session.client('guardduty', region_name=region)
 
     try:
-      result = gd.enable_organization_admin_account(
-        AdminAccountId=guarddutyadminaccount
+      detectors = gd.list_detectors()
+      detector = next(iter(detectors['DetectorIds']))
+      result = gd.update_organization_configuration(
+        DetectorId=detector,
+        AutoEnable=True
       )
     except ClientError as e:
       print(e.response['Error']['Message'])
     
     else:
-      print('Account {} has been enabled in {} region '.format(guarddutyadminaccount, region))
+      print('GuardDuty has been updated in {} region '.format(region))
 
   return
 
