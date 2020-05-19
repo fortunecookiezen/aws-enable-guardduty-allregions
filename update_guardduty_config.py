@@ -30,6 +30,15 @@ def get_regions(ec2):
 
   return regions
 
+def update_master_detector(gd, detector):
+  try:
+    result = gd.update_detector(
+      DetectorId=detector,
+      FindingPublishingFrequency='FIFTEEN_MINUTES'
+    )
+  except ClientError as e:
+    print(e.response['Error']['Message'])
+  return result
 
 def main():
   """
@@ -61,6 +70,7 @@ def main():
         DetectorId=detector,
         AutoEnable=True
       )
+      result = update_master_detector(gd, detector)
     except ClientError as e:
       print(e.response['Error']['Message'])
     
