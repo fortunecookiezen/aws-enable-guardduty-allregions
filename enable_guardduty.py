@@ -2,6 +2,7 @@
 
 Enables GuardDuty delegated administrator account
 across all aws regions
+RUN THIS AS YOUR ORG MASTER
 
 Python Version: 3.7.0
 Boto3 Version: 1.7.50

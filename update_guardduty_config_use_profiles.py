@@ -1,7 +1,8 @@
 """
 
-Enables GuardDuty delegated administrator account
+Updates GuardDuty delegated administrator account configuration
 across all aws regions
+RUN THIS AS THE GUARD DUTY ACCOUNT
 
 Python Version: 3.7.0
 Boto3 Version: 1.7.50
@@ -10,8 +11,6 @@ Boto3 Version: 1.7.50
 
 import boto3, sys
 from botocore.exceptions import ClientError
-
-## guarddutyadminaccount = '786053582951' #change this to your real account
 
 def get_regions(ec2):
   """
